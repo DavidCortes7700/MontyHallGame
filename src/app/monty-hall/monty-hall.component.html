@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>El juego de Monty Hall</h1>
+  <p>
+    En este juego, tienes tres puertas. Detrás de una de ellas hay un gran premio, pero detrás de las otras dos hay una
+    cabra. Tu objetivo es seleccionar la puerta con el premio detrás. Después de hacer tu elección, el presentador, Monty
+    Hall, abrirá una de las puertas que NO has seleccionado y que NO tiene el premio detrás. En este punto, tienes la
+    opción de cambiar tu elección a la otra puerta cerrada o quedarte con tu elección original. ¿Qué debes hacer?
+  </p>
+  <div class="doors">
+    <div class="door-container">
+      <div class="door" [ngClass]="{'selected': chosenDoor === 1, 'open': openDoor === 1}" (click)="chooseDoor(1)">
+        <div class="door-number">1</div>
+      </div>
+      <div class="door" [ngClass]="{'selected': chosenDoor === 2, 'open': openDoor === 2}" (click)="chooseDoor(2)">
+        <div class="door-number">2</div>
+      </div>
+      <div class="door" [ngClass]="{'selected': chosenDoor === 3, 'open': openDoor === 3}" (click)="chooseDoor(3)">
+        <div class="door-number">3</div>
+      </div>
+    </div>
+  </div>
+  <div class="options">
+    <p>¿Quieres cambiar tu elección?</p>
+    <div class="option-container">
+      <button class="btn btn-primary" (click)="toggleChangeChoice()">Cambiar puerta: {{ getChangeChoiceText() }}</button>
+    </div>
+    <button class="btn btn-primary" (click)="revealPrize()" [disabled]="!chosenDoor">Revelar premio</button>
+    <button class="btn btn-secondary" (click)="reset()">Reiniciar juego</button>
+  </div>
+  <div *ngIf="gameOver" class="result">
+    <p *ngIf="win">¡Felicidades, ganaste!</p>
+    <p *ngIf="!win">Lo siento, no ganaste.</p>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #ccc;
+}
+
+.doors,
+.options {
+  flex: 1;
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+p {
+  font-size: 1.2em;
+  text-align: justify;
+  line-height: 1.5;
+}
+
+.door-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.door {
+  background-color: #fff;
+  width: 150px;
+  height: 200px;
+  margin: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.door.selected {
+  border: 2px solid red;
+}
+
+.door.open {
+  border: 2px solid red;
+}
+
+.door:before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  background-color: #9C3924;
+  transition: all 0.3s ease-in-out;
+}
+
+.door.open:before {
+  transform: scaleX(0);
+}
+
+.option-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.option {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.option:hover {
+  background-color: #0062cc;
+}
+
+.selected {
+  background-color: #28a745;
+}
+
+.selected:hover {
+  background-color: #218838;
+}
