@@ -59,6 +59,8 @@ export class MontyHallComponent {
       this.chosenDoor = remainingDoors[0];
     }
 
+    this.openDoor = this.prizeDoor;
+
     this.win = this.chosenDoor === this.prizeDoor;
     this.gameOver = true;
     this.updateStats();
