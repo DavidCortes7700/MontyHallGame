@@ -1,34 +1,79 @@
 <div class="container">
   <h1>El juego de Monty Hall</h1>
-  <p>
-    En este juego, tienes tres puertas. Detrás de una de ellas hay un gran premio, pero detrás de las otras dos hay una
-    cabra. Tu objetivo es seleccionar la puerta con el premio detrás. Después de hacer tu elección, el presentador, Monty
-    Hall, abrirá una de las puertas que NO has seleccionado y que NO tiene el premio detrás. En este punto, tienes la
-    opción de cambiar tu elección a la otra puerta cerrada o quedarte con tu elección original. ¿Qué debes hacer?
-  </p>
-  <div class="doors">
-    <div class="door-container">
-      <div class="door" [ngClass]="{'selected': chosenDoor === 1, 'open': openDoor === 1}" (click)="chooseDoor(1)">
-        <div class="door-number">1</div>
-      </div>
-      <div class="door" [ngClass]="{'selected': chosenDoor === 2, 'open': openDoor === 2}" (click)="chooseDoor(2)">
-        <div class="door-number">2</div>
-      </div>
-      <div class="door" [ngClass]="{'selected': chosenDoor === 3, 'open': openDoor === 3}" (click)="chooseDoor(3)">
-        <div class="door-number">3</div>
-      </div>
+  <button class="stats-button" (click)="openStatsModal()">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart" viewBox="0 0 16 16">
+      <path d="M0 0h1v16H0V0zm1 15h15v1H1v-1zm14-9h-3V3h3v3zM4 4h3v7H4V4zm5 6h3V5H9v5z"/>
+    </svg>
+    Estadísticas
+  </button>
+  <div class="door-container">
+    <div class="door" [ngClass]="{'selected': chosenDoor === 1, 'open': openDoor === 1}" (click)="chooseDoor(1)">
+      <div class="door-number">1</div>
+      <div class="door-image" [ngStyle]="{'background-image': getDoorImage(1)}"></div>
     </div>
+
+    <div class="door" [ngClass]="{'selected': chosenDoor === 2, 'open': openDoor === 2}" (click)="chooseDoor(2)">
+      <div class="door-number">2</div>
+      <div class="door-image" [ngStyle]="{'background-image': getDoorImage(2)}"></div>
+    </div>
+
+    <div class="door" [ngClass]="{'selected': chosenDoor === 3, 'open': openDoor === 3}" (click)="chooseDoor(3)">
+      <div class="door-number">3</div>
+      <div class="door-image" [ngStyle]="{'background-image': getDoorImage(3)}"></div>
+    </div>
+
   </div>
   <div class="options">
     <p>¿Quieres cambiar tu elección?</p>
-    <div class="option-container">
+    <div class="button-container">
       <button class="btn btn-primary" (click)="toggleChangeChoice()">Cambiar puerta: {{ getChangeChoiceText() }}</button>
+      <button class="btn btn-primary" (click)="revealPrize()" [disabled]="!chosenDoor">Revelar premio</button>
     </div>
-    <button class="btn btn-primary" (click)="revealPrize()" [disabled]="!chosenDoor">Revelar premio</button>
-    <button class="btn btn-secondary" (click)="reset()">Reiniciar juego</button>
+    <div class="reset-button">
+      <button class="btn btn-secondary" (click)="reset()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M8 0a8 8 0 1 0 8 8A8 8 0 0 0 8 0zm4.28 6.72a.75.75 0 0 1 0 1.06l-2.25 2.25a.25.25 0 0 1-.35 0L9 7.56V11.5a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H9.44l1.22 1.22a1.75 1.75 0 0 0 2.47 2.47l2.25-2.25a.75.75 0 0 1 1.06 1.06l-2.25 2.25a3.25 3.25 0 0 1-4.6 0L4.72 6.72a.75.75 0 0 1 1.06-1.06l2.25 2.25a3.25 3.25 0 0 1 0 4.6l-2.25 2.25a.75.75 0 0 1-1.06-1.06l2.25-2.25a1.75 1.75 0 0 0 0-2.47L6.28 7.72a.75.75 0 0 1 0-1.06l2.25-2.25a3.25 3.25 0 0 1 4.6 0l2.25 2.25z"/>
+        </svg>
+        Reiniciar juego
+      </button>
+    </div>
   </div>
   <div *ngIf="gameOver" class="result">
     <p *ngIf="win">¡Felicidades, ganaste!</p>
     <p *ngIf="!win">Lo siento, no ganaste.</p>
   </div>
+  <!-- Modal de estadísticas -->
+  <div class="modal" [ngClass]="{'open': isStatsModalOpen}">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Estadísticas de juego</h2>
+        <button class="close-button" (click)="closeStatsModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+            <path d="M.293 1.293l14 14a1 1 0 0 1-1.414 0L8 8.414 1.707 14.707a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707A1 1 0 1 1 1.707.293z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="stats-container">
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>Intento</th>
+                <th>Elección</th>
+                <th>Resultado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let stat of gameStats">
+                <td>{{ stat.attempt }}</td>
+                <td>{{ stat.change ? 'Cambiada' : 'Sin cambio' }}</td>
+                <td>{{ stat.win ? 'Ganó' : 'Perdió' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
