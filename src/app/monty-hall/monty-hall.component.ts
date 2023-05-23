@@ -59,12 +59,13 @@ export class MontyHallComponent {
       this.chosenDoor = remainingDoors[0];
     }
 
-    this.openDoor = this.prizeDoor;
+    this.openDoor = this.chosenDoor; // Cambio realizado aquí
 
     this.win = this.chosenDoor === this.prizeDoor;
     this.gameOver = true;
     this.updateStats();
   }
+
 
   getChangeChoiceText() {
     return this.changeChoice ? 'Sí' : 'No';
